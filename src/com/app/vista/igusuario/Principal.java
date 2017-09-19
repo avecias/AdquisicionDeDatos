@@ -89,7 +89,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel6.setText("Puertos");
 
-        botonActualizarPuerto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/app/imagenes/ajax-refresh-icon.gif"))); // NOI18N
+        botonActualizarPuerto.setText("Refrecar");
         botonActualizarPuerto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonActualizarPuertoActionPerformed(evt);
@@ -161,7 +161,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(comboPuertos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonActualizarPuerto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(botonConectar)
                 .addContainerGap())
         );
