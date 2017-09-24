@@ -9,6 +9,7 @@ import com.app.modelo.entidades.Parametro;
 import com.app.vista.iggrafica.Muestreo;
 import com.app.vista.igusuario.Principal;
 import javax.swing.JOptionPane;
+import jssc.SerialPort;
 import jssc.SerialPortException;
 
 public class ConectarPuerto {
@@ -28,7 +29,7 @@ public class ConectarPuerto {
             // Subir a la session
             principal.setVisible(false);
             principal.dispose();
-            muestreo.setSerialPort(((ConexionSerialImple)conexionSerial).getSerialPort());
+            muestreo.setSerialPort(((ConexionSerialImple) conexionSerial).getSerialPort());
             muestreo.setVisible(true);
         } catch (SerialPortException ex) {
             JOptionPane.showMessageDialog(principal, "Error al comunicar con arduino", "Error en arduino", JOptionPane.ERROR_MESSAGE);

@@ -7,6 +7,7 @@ package test.serial;
 
 import com.app.modelo.conexion.serial.ConexionSerialImple;
 
+
 /**
  *
  * @author gvalentin

@@ -4,10 +4,10 @@ de los sensores casi en tiempo real
  */
 package com.app.vista.iggrafica;
 
+import com.app.modelo.conexion.analizador.Analizador;
 import com.app.modelo.entidades.Parametro;
 import com.app.modelo.entidades.Trama;
 import com.app.vista.igusuario.Principal;
-import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
@@ -23,6 +23,7 @@ public class Muestreo extends javax.swing.JFrame implements SerialPortEventListe
     private SerialPort serialPort;
     private String mensajeAux;
     private String mensaje;
+    private Analizador analizador;
 
     public Muestreo(Parametro parametro, Principal principal) {
         initComponents();
@@ -31,12 +32,15 @@ public class Muestreo extends javax.swing.JFrame implements SerialPortEventListe
         this.principal = principal;
         mensajeAux = "";
         mensaje = "";
+        analizador = new Analizador();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        area = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -50,6 +54,10 @@ public class Muestreo extends javax.swing.JFrame implements SerialPortEventListe
             }
         });
 
+        area.setColumns(20);
+        area.setRows(5);
+        jScrollPane1.setViewportView(area);
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -62,11 +70,17 @@ public class Muestreo extends javax.swing.JFrame implements SerialPortEventListe
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 817, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(560, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 514, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
@@ -80,9 +94,11 @@ public class Muestreo extends javax.swing.JFrame implements SerialPortEventListe
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea area;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
     private void icono() {
@@ -95,7 +111,18 @@ public class Muestreo extends javax.swing.JFrame implements SerialPortEventListe
             if (event.getEventValue() > 0) {
                 try {
                     String receivedData = serialPort.readString(event.getEventValue());
-                } catch (SerialPortException ex) {
+                    area.append(receivedData);
+                    mensajeAux += receivedData;
+                    if (receivedData.contains("\n")) {
+                        mensaje = mensajeAux;
+                        Trama trama = analizador.convertir(mensaje.substring(0, mensaje.length() - 2));
+//                        panelChart.getDataset().setValue(trama.getA());
+//                        panelChart2.getDataset().setValue(trama.getB());
+//                        termometro.getDataset().setValue(trama.getC());
+                        mensajeAux = "";
+                        System.out.println(trama);
+                    }
+                }  catch (SerialPortException ex) {
                     System.out.println("Error in receiving string from COM-port: " + ex);
                 }
             }
